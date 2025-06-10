@@ -22,7 +22,8 @@ namespace TodoApp
             foreach (var item in project.GetSortedTasks(sortMode))
             {
                 var status = item.IsCompleted ? "[x]" : "[ ]";
-                Console.WriteLine($"{i++,2}. {status} {item.Description}");
+                var due = item.DueDate.HasValue ? $" (Due: {item.DueDate.Value:yyyy-MM-dd})" : "";
+                Console.WriteLine($"{i++,2}. {status} {item.Description}{due}");
             }
             if (project.Tasks.Count == 0)
                 Console.WriteLine("No tasks.");

@@ -67,7 +67,13 @@ namespace TodoApp
                     if (CurrentProject == null) break;
                     var desc = Draw.ShowDialog("Add Task", "Enter description:");
                     if (!string.IsNullOrWhiteSpace(desc))
-                        CurrentProject.AddTask(new Task(desc));
+                    {
+                        var dueDateStr = Draw.ShowDialog("Add Task", "Enter due date (yyyy-MM-dd) or leave blank:");
+                        DateTime? dueDate = null;
+                        if (!string.IsNullOrWhiteSpace(dueDateStr) && DateTime.TryParse(dueDateStr, out var parsedDue))
+                            dueDate = parsedDue;
+                        CurrentProject.AddTask(new Task(desc, dueDate));
+                    }
                     break;
                 case 'E':
                     if (CurrentProject == null) break;
@@ -81,6 +87,12 @@ namespace TodoApp
                             var newDesc = Draw.ShowDialog("Edit Task", $"Current: {item.Description}\nNew description:");
                             if (!string.IsNullOrWhiteSpace(newDesc))
                                 item.Description = newDesc;
+                            var newDueStr = Draw.ShowDialog("Edit Task", $"Current due: {(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy-MM-dd") : "none")}\nNew due date (yyyy-MM-dd) or leave blank:");
+                            if (!string.IsNullOrWhiteSpace(newDueStr))
+                            {
+                                if (DateTime.TryParse(newDueStr, out var newDue))
+                                    item.DueDate = newDue;
+                            }
                         }
                     }
                     break;
@@ -157,7 +169,7 @@ namespace TodoApp
                 else
                 {
                     var projectNames = ProjectList.Projects.Select((p, i) => $"{i + 1}. {p.Name}").ToList();
-                    var selection = Draw.ShowDialog("Select Project", string.join("\n", projectNames) + "\nN. New Project\n\nEnter number or N:");
+                    var selection = Draw.ShowDialog("Select Project", string.Join("\n", projectNames) + "\nN. New Project\n\nEnter number or N:");
                     if (selection.Trim().ToUpper() == "N")
                     {
                         var name = Draw.ShowDialog("New Project", "Enter project name:");
