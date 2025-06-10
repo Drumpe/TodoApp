@@ -13,6 +13,7 @@ namespace TodoApp
 				{ 'R', "Remove" },
 				{ 'C', "Complete" },
 				{ 'T', "" }, // Placeholder for dynamic label
+                { 'P', "Project" }, 
                 { 'S', "Save" },
 				{ 'L', "Load" },
 				{ 'Q', "Quit" }

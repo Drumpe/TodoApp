@@ -2,8 +2,9 @@ using System.Text.Json;
 
 namespace TodoApp
 {
-	/// FileHandle class for managing file operations related to TodoList
-	public class FileHandle
+
+    // FileHandle class for managing file operations related to ProjectList
+    public class FileHandle
     {
         public string FileName { get; set; }
 
@@ -14,18 +15,18 @@ namespace TodoApp
 
         public bool FileExists => File.Exists(FileName);
 
-        public void SaveAsJSON(TodoList list)
+        public void SaveAsJSON(ProjectList projectList)
         {
-            var json = JsonSerializer.Serialize(list, new JsonSerializerOptions { WriteIndented = true });
+            var json = JsonSerializer.Serialize(projectList, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(FileName, json);
         }
 
-        public TodoList? ReadJSON()
+        public ProjectList? ReadJSON()
         {
             if (!FileExists)
                 return null;
             var json = File.ReadAllText(FileName);
-            return JsonSerializer.Deserialize<TodoList>(json);
+            return JsonSerializer.Deserialize<ProjectList>(json);
         }
     }
 }

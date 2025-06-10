@@ -1,13 +1,13 @@
 namespace TodoApp
 {
-    public class TodoItem
+    public class Task
     {
         public string Description { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? CompletedDate { get; set; }
 
-        public TodoItem(string description)
+        public Task(string description)
         {
             Description = description;
             IsCompleted = false;
