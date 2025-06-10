@@ -63,60 +63,141 @@ namespace TodoApp
         {
             switch (char.ToUpperInvariant(action))
             {
-                case 'A':
-                    if (CurrentProject == null) break;
-                    var desc = Draw.ShowDialog("Add Task", "Enter description:");
-                    if (!string.IsNullOrWhiteSpace(desc))
+				// Add a new task to the current project or prompt for project selection
+				case 'A':
+                    if (CurrentProject == null)
                     {
-                        var dueDateStr = Draw.ShowDialog("Add Task", "Enter due date (yyyy-MM-dd) or leave blank:");
-                        DateTime? dueDate = null;
-                        if (!string.IsNullOrWhiteSpace(dueDateStr) && DateTime.TryParse(dueDateStr, out var parsedDue))
-                            dueDate = parsedDue;
-                        CurrentProject.AddTask(new Task(desc, dueDate));
-                    }
-                    break;
-                case 'E':
-                    if (CurrentProject == null) break;
-                    var editIdxStr = Draw.ShowDialog("Edit Task", "Enter task number to edit:");
-                    if (int.TryParse(editIdxStr, out int editIdx))
-                    {
-                        var realIndex = CurrentProject.GetActualIndexFromSortedDisplayIndex(editIdx, CurrentSortMode);
-                        if (realIndex.HasValue)
+                        // Prompt for project to add the task to
+                        var project = SelectOrCreateProject();
+                        if (project == null) break;
+                        var desc = Draw.ShowInputDialog("Add Task", "Enter description:");
+                        if (!string.IsNullOrWhiteSpace(desc))
                         {
-                            var item = CurrentProject.Tasks[realIndex.Value];
-                            var newDesc = Draw.ShowDialog("Edit Task", $"Current: {item.Description}\nNew description:");
-                            if (!string.IsNullOrWhiteSpace(newDesc))
-                                item.Description = newDesc;
-                            var newDueStr = Draw.ShowDialog("Edit Task", $"Current due: {(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy-MM-dd") : "none")}\nNew due date (yyyy-MM-dd) or leave blank:");
-                            if (!string.IsNullOrWhiteSpace(newDueStr))
+                            var dueDateStr = Draw.ShowInputDialog("Add Task", "Enter due date (yyyy-MM-dd) or leave blank:");
+                            DateTime? dueDate = null;
+                            if (!string.IsNullOrWhiteSpace(dueDateStr) && DateTime.TryParse(dueDateStr, out var parsedDue))
+                                dueDate = parsedDue;
+                            project.AddTask(new Task(desc, dueDate));
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        var desc = Draw.ShowInputDialog("Add Task", "Enter description:");
+                        if (!string.IsNullOrWhiteSpace(desc))
+                        {
+                            var dueDateStr = Draw.ShowInputDialog("Add Task", "Enter due date (yyyy-MM-dd) or leave blank:");
+                            DateTime? dueDate = null;
+                            if (!string.IsNullOrWhiteSpace(dueDateStr) && DateTime.TryParse(dueDateStr, out var parsedDue))
+                                dueDate = parsedDue;
+                            CurrentProject.AddTask(new Task(desc, dueDate));
+                        }
+                        break;
+                    }
+				// Edit a task in the current project or prompt for global task selection
+				case 'E':
+                    if (CurrentProject == null)
+                    {
+                        // All tasks: find project and task by global index
+                        var editIdxStr = Draw.ShowInputDialog("Edit Task", "Enter task number to edit:");
+                        if (int.TryParse(editIdxStr, out int editIdx))
+                        {
+                            var allTasks = ProjectList.Projects.SelectMany(p => p.GetSortedTasks(CurrentSortMode)).ToList();
+                            if (editIdx > 0 && editIdx <= allTasks.Count)
                             {
-                                if (DateTime.TryParse(newDueStr, out var newDue))
+                                var task = allTasks[editIdx - 1];
+                                var project = ProjectList.Projects.First(p => p.Tasks.Contains(task));
+                                var newDesc = Draw.ShowInputDialog("Edit Task", $"Current: {task.Description}\nNew description:");
+                                if (!string.IsNullOrWhiteSpace(newDesc))
+                                    task.Description = newDesc;
+                                var newDueStr = Draw.ShowInputDialog("Edit Task", $"Current due: {(task.DueDate.HasValue ? task.DueDate.Value.ToString("yyyy-MM-dd") : "none")}\nNew due date (yyyy-MM-dd) or leave blank:");
+                                if (!string.IsNullOrWhiteSpace(newDueStr) && DateTime.TryParse(newDueStr, out var newDue))
+                                    task.DueDate = newDue;
+                            }
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        var editIdxStr = Draw.ShowInputDialog("Edit Task", "Enter task number to edit:");
+                        if (int.TryParse(editIdxStr, out int editIdx))
+                        {
+                            var realIndex = CurrentProject.GetActualIndexFromSortedDisplayIndex(editIdx, CurrentSortMode);
+                            if (realIndex.HasValue)
+                            {
+                                var item = CurrentProject.Tasks[realIndex.Value];
+                                var newDesc = Draw.ShowInputDialog("Edit Task", $"Current: {item.Description}\nNew description:");
+                                if (!string.IsNullOrWhiteSpace(newDesc))
+                                    item.Description = newDesc;
+                                var newDueStr = Draw.ShowInputDialog("Edit Task", $"Current due: {(item.DueDate.HasValue ? item.DueDate.Value.ToString("yyyy-MM-dd") : "none")}\nNew due date (yyyy-MM-dd) or leave blank:");
+                                if (!string.IsNullOrWhiteSpace(newDueStr) && DateTime.TryParse(newDueStr, out var newDue))
                                     item.DueDate = newDue;
                             }
                         }
+                        break;
                     }
-                    break;
-                case 'R':
-                    if (CurrentProject == null) break;
-                    var idxStr = Draw.ShowDialog("Remove Task", "Enter task number to remove:");
-                    if (int.TryParse(idxStr, out int idx))
+				// Remove a task from the current project or prompt for global task selection
+				case 'R':
+                    if (CurrentProject == null)
                     {
-                        var realIndex = CurrentProject.GetActualIndexFromSortedDisplayIndex(idx, CurrentSortMode);
-                        if (realIndex.HasValue)
-                            CurrentProject.RemoveTask(realIndex.Value);
+                        var idxStr = Draw.ShowInputDialog("Remove Task", "Enter task number to remove:");
+                        if (int.TryParse(idxStr, out int idx))
+                        {
+                            var allTasks = ProjectList.Projects.SelectMany(p => p.GetSortedTasks(CurrentSortMode)).ToList();
+                            if (idx > 0 && idx <= allTasks.Count)
+                            {
+                                var task = allTasks[idx - 1];
+                                var project = ProjectList.Projects.First(p => p.Tasks.Contains(task));
+                                int taskIndex = project.Tasks.IndexOf(task);
+                                if (taskIndex >= 0)
+                                    project.RemoveTask(taskIndex);
+                            }
+                        }
+                        break;
                     }
-                    break;
-                case 'C':
-                    if (CurrentProject == null) break;
-                    var cidxStr = Draw.ShowDialog("Toggle Complete", "Enter task number to toggle:");
-                    if (int.TryParse(cidxStr, out int cidx))
+                    else
                     {
-                        var realIndex = CurrentProject.GetActualIndexFromSortedDisplayIndex(cidx, CurrentSortMode);
-                        if (realIndex.HasValue)
-                            CurrentProject.ToggleCompletion(realIndex.Value);
+                        var idxStr = Draw.ShowInputDialog("Remove Task", "Enter task number to remove:");
+                        if (int.TryParse(idxStr, out int idx))
+                        {
+                            var realIndex = CurrentProject.GetActualIndexFromSortedDisplayIndex(idx, CurrentSortMode);
+                            if (realIndex.HasValue)
+                                CurrentProject.RemoveTask(realIndex.Value);
+                        }
+                        break;
                     }
-                    break;
-                case 'S':
+				// Toggle completion status of a task in the current project or prompt for global task selection
+				case 'C':
+                    if (CurrentProject == null)
+                    {
+                        var cidxStr = Draw.ShowInputDialog("Toggle Complete", "Enter task number to toggle:");
+                        if (int.TryParse(cidxStr, out int cidx))
+                        {
+                            var allTasks = ProjectList.Projects.SelectMany(p => p.GetSortedTasks(CurrentSortMode)).ToList();
+                            if (cidx > 0 && cidx <= allTasks.Count)
+                            {
+                                var task = allTasks[cidx - 1];
+                                var project = ProjectList.Projects.First(p => p.Tasks.Contains(task));
+                                int taskIndex = project.Tasks.IndexOf(task);
+                                if (taskIndex >= 0)
+                                    project.ToggleCompletion(taskIndex);
+                            }
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        var cidxStr = Draw.ShowInputDialog("Toggle Complete", "Enter task number to toggle:");
+                        if (int.TryParse(cidxStr, out int cidx))
+                        {
+                            var realIndex = CurrentProject.GetActualIndexFromSortedDisplayIndex(cidx, CurrentSortMode);
+                            if (realIndex.HasValue)
+                                CurrentProject.ToggleCompletion(realIndex.Value);
+                        }
+                        break;
+                    }
+				// Save the current project list to a JSON file
+				case 'S':
                     File.SaveAsJSON(ProjectList);
                     Draw.ShowMessageDialog("Save", "Projects saved successfully.");
                     break;
@@ -152,13 +233,14 @@ namespace TodoApp
          * If projects exist, the user can select an existing project or create a new one.
          * Returns the selected or newly created project.
          */
-        private Project SelectOrCreateProject()
+        private Project? SelectOrCreateProject()
         {
+            Console.Clear();
             while (true)
             {
                 if (ProjectList.Projects.Count == 0)
                 {
-                    var name = Draw.ShowDialog("New Project", "No projects found. Enter a project name:");
+                    var name = Draw.ShowInputDialog("New Project", "No projects found. Enter a project name:");
                     if (!string.IsNullOrWhiteSpace(name))
                     {
                         var project = new Project(name);
@@ -169,10 +251,17 @@ namespace TodoApp
                 else
                 {
                     var projectNames = ProjectList.Projects.Select((p, i) => $"{i + 1}. {p.Name}").ToList();
-                    var selection = Draw.ShowDialog("Select Project", string.Join("\n", projectNames) + "\nN. New Project\n\nEnter number or N:");
+                    var selection = Draw.ShowInputDialog(
+                        "Select Project",
+                        "A. All tasks\n" +
+                        string.Join("\n", projectNames) +
+                        "\nN. New Project\n\nEnter number, A, or N:"
+                    );
+                    if (selection.Trim().ToUpper() == "A")
+                        return null; // Special value for "All tasks"
                     if (selection.Trim().ToUpper() == "N")
                     {
-                        var name = Draw.ShowDialog("New Project", "Enter project name:");
+                        var name = Draw.ShowInputDialog("New Project", "Enter project name:");
                         if (!string.IsNullOrWhiteSpace(name))
                         {
                             var project = new Project(name);

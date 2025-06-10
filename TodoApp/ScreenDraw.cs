@@ -5,20 +5,31 @@ namespace TodoApp
         public void DrawScreen(ProjectList projectList, Project? currentProject, Menu menu, SortMode sortMode)
         {
             Console.Clear();
-            DrawMain(currentProject, sortMode);
+            DrawMain(projectList, currentProject, sortMode);
             DrawFooter(menu, sortMode);
         }
 
-        private void DrawMain(Project? project, SortMode sortMode)
+        private void DrawMain(ProjectList projectList, Project? project, SortMode sortMode)
         {
-            if (project == null)
+			int i = 1;
+
+			if (project == null)
             {
-                Console.WriteLine("No project selected.");
+                Console.WriteLine($"ALL TASKS {(sortMode == SortMode.Date ? "Date" : "Alphabetic")}:");
+                var allTasks = projectList.Projects.SelectMany(p => p.GetSortedTasks(sortMode));
+                foreach (var item in allTasks)
+                {
+                    var status = item.IsCompleted ? "[x]" : "[ ]";
+                    var due = item.DueDate.HasValue ? $" (Due: {item.DueDate.Value:yyyy-MM-dd})" : "";
+                    Console.WriteLine($"{i++,2}. {status} {item.Description}{due} (Project: {projectList.Projects.First(p => p.Tasks.Contains(item)).Name})");
+                }
+                if (!projectList.Projects.Any(p => p.Tasks.Count > 0))
+                    Console.WriteLine("No tasks.");
                 return;
             }
             Console.WriteLine($"PROJECT: {project.Name}");
             Console.WriteLine($"TASKS ({(sortMode == SortMode.Date ? "Date" : "Alphabetic")}):");
-            int i = 1;
+            i = 1;
             foreach (var item in project.GetSortedTasks(sortMode))
             {
                 var status = item.IsCompleted ? "[x]" : "[ ]";
@@ -41,7 +52,7 @@ namespace TodoApp
             Console.Write(menuText.PadRight(Console.WindowWidth));
         }
 
-        public string ShowDialog(string title, string message)
+        public string ShowInputDialog(string title, string message)
         {
             var lines = message.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
             int messageLines = lines.Length;
@@ -58,6 +69,7 @@ namespace TodoApp
             int dashLeft = dashCount / 2;
             int dashRight = dashCount - dashLeft;
             string topBorder = "+" + new string('-', dashLeft) + borderTitle + new string('-', dashRight) + "+";
+
 
             Console.SetCursorPosition(left, top);
             Console.Write(topBorder);
@@ -104,7 +116,9 @@ namespace TodoApp
             int dashRight = dashCount - dashLeft;
             string topBorder = "+" + new string('-', dashLeft) + borderTitle + new string('-', dashRight) + "+";
 
-            Console.SetCursorPosition(left, top);
+			Console.Clear();
+
+			Console.SetCursorPosition(left, top);
             Console.Write(topBorder);
             Console.SetCursorPosition(left, top + 1);
             Console.Write("|" + new string(' ', width - 2) + "|");
