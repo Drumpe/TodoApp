@@ -157,7 +157,7 @@ namespace TodoApp
                 else
                 {
                     var projectNames = ProjectList.Projects.Select((p, i) => $"{i + 1}. {p.Name}").ToList();
-                    var selection = Draw.ShowDialog("Select Project", string.Join("\n", projectNames) + "\nN. New Project\n\nEnter number or N:");
+                    var selection = Draw.ShowDialog("Select Project", string.join("\n", projectNames) + "\nN. New Project\n\nEnter number or N:");
                     if (selection.Trim().ToUpper() == "N")
                     {
                         var name = Draw.ShowDialog("New Project", "Enter project name:");
