@@ -1,6 +1,6 @@
 namespace TodoApp
 {
-	public enum SortMode
+	public enum SortMode // Enum to define the sorting modes for the todo list
 	{
 		Date,
 		Alphabetic
@@ -14,7 +14,12 @@ namespace TodoApp
         private FileHandle File { get; }
         private SortMode CurrentSortMode { get; set; } = SortMode.Date;
 
-        public TodoApp()
+		/**
+         * Initializes a new instance of the TodoApp class.
+         * This constructor sets up the menu, todo list, screen drawing, and file handling.
+         * It also attempts to load existing todo items from a JSON file on startup.
+         */
+		public TodoApp()
         {
             Menu = new Menu();
             List = new TodoList();
@@ -30,7 +35,11 @@ namespace TodoApp
             }
         }
 
-        public void Run()
+		/**
+         * Starts the application and runs the main loop.
+         * This method will continue to run until the user chooses to exit.
+         */
+		public void Run()
         {
             bool running = true;
             while (running)
@@ -41,7 +50,12 @@ namespace TodoApp
             }
         }
 
-        private bool Handle(char action)
+		/**
+         * Handles the action based on the user's input.
+         * This method will perform the corresponding action for each key press.
+         * Returns false if the user chooses to quit the application.
+         */
+		private bool Handle(char action)
         {
             switch (char.ToUpperInvariant(action))
             {
@@ -51,7 +65,7 @@ namespace TodoApp
                         List.AddItem(new TodoItem(desc));
                     break;
                 case 'E':
-                    var editIdxStr = Draw.ShowDialog("Edit Task", "Enter item number to edit:");
+                    var editIdxStr = Draw.ShowDialog("Edit Task", "Enter task number to edit:");
                     if (int.TryParse(editIdxStr, out int editIdx))
                     {
                         var realIndex = List.GetActualIndexFromSortedDisplayIndex(editIdx, CurrentSortMode);
@@ -65,7 +79,7 @@ namespace TodoApp
                     }
                     break;
                 case 'R':
-                    var idxStr = Draw.ShowDialog("Remove Task", "Enter item number to remove:");
+                    var idxStr = Draw.ShowDialog("Remove Task", "Enter task number to remove:");
                     if (int.TryParse(idxStr, out int idx))
                     {
                         var realIndex = List.GetActualIndexFromSortedDisplayIndex(idx, CurrentSortMode);
@@ -74,7 +88,7 @@ namespace TodoApp
                     }
                     break;
                 case 'C':
-                    var cidxStr = Draw.ShowDialog("Toggle Task", "Enter item number to toggle:");
+                    var cidxStr = Draw.ShowDialog("Toggle Complete", "Enter task number to toggle:");
                     if (int.TryParse(cidxStr, out int cidx))
                     {
                         var realIndex = List.GetActualIndexFromSortedDisplayIndex(cidx, CurrentSortMode);

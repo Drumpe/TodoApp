@@ -19,11 +19,10 @@ namespace TodoApp
 			};
 		}
 
-		public char GetAction(SortMode sortMode)
-		{
-			return HandleInput(sortMode);
-		}
-
+		/**
+		 * Returns a formatted string for the menu options.
+		 * The 'T' option label changes based on the current sort mode.
+		 */
 		public string GetMenuText(SortMode sortMode)
 		{
 			var parts = new List<string>();
@@ -37,7 +36,11 @@ namespace TodoApp
 			return string.Join(" | ", parts);
 		}
 
-		public char HandleInput(SortMode sortMode)
+		/**
+		 * Waits for a key press and returns the corresponding action character.
+		 * The method will ignore any key presses that are not in the Options dictionary.
+		 */
+		public char GetAction(SortMode sortMode)
 		{
 			Console.CursorVisible = false;
 			try

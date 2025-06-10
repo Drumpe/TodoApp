@@ -2,14 +2,27 @@ namespace TodoApp
 {
     public class ScreenDraw
     {
-        public void DrawScreen(TodoList todoList, Menu menu, SortMode sortMode)
+		/**
+         * Draws the main screen with the todo list and menu.
+         * This method clears the console, draws the main content, and footer with menu options.
+         * @param todoList The todo list to display.
+         * @param menu The menu to display at the bottom.
+         * @param sortMode The current sorting mode for the todo items.
+         */
+		public void DrawScreen(TodoList todoList, Menu menu, SortMode sortMode)
         {
             Console.Clear();
             DrawMain(todoList, sortMode);
             DrawFooter(menu, sortMode);
         }
 
-        private void DrawMain(TodoList todoList, SortMode sortMode)
+		/**
+         * Draws the main content of the todo list.
+         * This method displays the todo items sorted by the specified mode.
+         * @param todoList The todo list containing items to display.
+         * @param sortMode The current sorting mode for the todo items.
+         */
+		private void DrawMain(TodoList todoList, SortMode sortMode)
         {
             Console.WriteLine($"TODO LIST ( {(sortMode == SortMode.Date ? "Date" : "Alphabetic" )} ):");
             int i = 1;
@@ -22,7 +35,13 @@ namespace TodoApp
                 Console.WriteLine("No items.");
         }
 
-        private void DrawFooter(Menu menu, SortMode sortMode)
+		/**
+         * Draws the footer with menu options.
+         * This method displays the available actions at the bottom of the console.
+         * @param menu The menu containing available actions.
+         * @param sortMode The current sorting mode for the todo items.
+         */
+		private void DrawFooter(Menu menu, SortMode sortMode)
         {
             string menuText = menu.GetMenuText(sortMode);
             int footerLines = 2; // separator + one-line menu
@@ -34,7 +53,14 @@ namespace TodoApp
             Console.Write(menuText.PadRight(Console.WindowWidth));
         }
 
-        public string ShowDialog(string title, string message)
+		/**
+         * Displays a dialog box for user input.
+         * This method shows a dialog with a title and message, allowing the user to enter text.
+         * @param title The title of the dialog.
+         * @param message The message to display in the dialog.
+         * @return The user input as a string.
+         */
+		public string ShowDialog(string title, string message)
         {
             // Split message into lines
             var lines = message.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
@@ -91,7 +117,13 @@ namespace TodoApp
             return input ?? string.Empty;
         }
 
-        public void ShowMessageDialog(string title, string message)
+		/**
+         * Displays a message dialog box.
+         * This method shows a dialog with a title and message, and waits for the user to press any key.
+         * @param title The title of the dialog.
+         * @param message The message to display in the dialog.
+         */
+		public void ShowMessageDialog(string title, string message)
         {
             // Prepare title on border
             string borderTitle = $" {title} ";
@@ -131,7 +163,14 @@ namespace TodoApp
             }
         }
 
-        private string CenterText(string text, int width)
+		/**
+         * Centers the given text within a specified width.
+         * If the text is longer than the width, it will be truncated.
+         * @param text The text to center.
+         * @param width The width to center the text within.
+         * @return The centered text.
+         */
+		private string CenterText(string text, int width)
         {
             if (text.Length >= width) return text.Substring(0, width);
             int leftPadding = (width - text.Length) / 2;

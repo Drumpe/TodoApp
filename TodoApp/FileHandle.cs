@@ -2,7 +2,8 @@ using System.Text.Json;
 
 namespace TodoApp
 {
-    public class FileHandle
+	/// FileHandle class for managing file operations related to TodoList
+	public class FileHandle
     {
         public string FileName { get; set; }
 

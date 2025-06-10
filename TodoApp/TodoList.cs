@@ -9,21 +9,18 @@ namespace TodoApp
             Items = new List<TodoItem>();
         }
 
-        public void AddItem(TodoItem item) => Items.Add(item);
+		// Adds a new item to the todo list
+		public void AddItem(TodoItem item) => Items.Add(item);
 
-        public void RemoveItem(int index)
+		// Removes an item from the todo list by index
+		public void RemoveItem(int index)
         {
             if (index >= 0 && index < Items.Count)
                 Items.RemoveAt(index);
         }
 
-        public void MarkCompleted(int index, bool completed)
-        {
-            if (index >= 0 && index < Items.Count)
-                Items[index].MarkCompleted(completed);
-        }
-
-        public void ToggleCompletion(int index)
+		// Toggles the completion status of an item
+		public void ToggleCompletion(int index)
         {
             if (index >= 0 && index < Items.Count)
             {
@@ -32,7 +29,8 @@ namespace TodoApp
             }
         }
 
-        public IEnumerable<TodoItem> GetSortedItems(SortMode mode)
+		// Gets the sorted items based on the specified sort mode
+		public IEnumerable<TodoItem> GetSortedItems(SortMode mode)
         {
             return mode switch
             {
@@ -41,7 +39,8 @@ namespace TodoApp
             };
         }
 
-        public int? GetActualIndexFromSortedDisplayIndex(int displayIndex, SortMode mode)
+		// Gets the actual index of an item based on its display index in the sorted list
+		public int? GetActualIndexFromSortedDisplayIndex(int displayIndex, SortMode mode)
         {
             var sorted = GetSortedItems(mode).ToList();
             if (displayIndex < 1 || displayIndex > sorted.Count)
