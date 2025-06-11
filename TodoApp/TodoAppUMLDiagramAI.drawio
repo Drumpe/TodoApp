@@ -1,82 +1,105 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0" version="27.1.4">
-  <diagram name="TodoApp UML" id="todoapp-uml">
-    <mxGraphModel dx="1042" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="2" value="TodoApp" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
-          <mxGeometry x="70" y="40" width="370" height="160" as="geometry" />
-        </mxCell>
-        <mxCell id="3" value="&lt;u&gt;- Menu : Menu&lt;/u&gt;&#xa;&lt;u&gt;- List : TodoList&lt;/u&gt;&#xa;&lt;u&gt;- Draw : ScreenDraw&lt;/u&gt;&#xa;&lt;u&gt;- File : FileHandle&lt;/u&gt;&#xa;&lt;u&gt;- CurrentSortMode : SortMode&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="2" vertex="1">
-          <mxGeometry y="20" width="190" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="4" value="&lt;u&gt;+ Run() : void&lt;/u&gt;&#xa;&lt;u&gt;- Handle(action : char) : bool&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="2" vertex="1">
-          <mxGeometry x="190" y="20" width="180" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="5" value="Menu" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
-          <mxGeometry x="610" y="40" width="410" height="110" as="geometry" />
-        </mxCell>
-        <mxCell id="6" value="&lt;u&gt;- Options : Dictionary&lt;char, string&gt;&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="5" vertex="1">
-          <mxGeometry y="20" width="140" height="90" as="geometry" />
-        </mxCell>
-        <mxCell id="7" value="&lt;u&gt;+ GetAction(sortMode : SortMode) : char&lt;/u&gt;&#xa;&lt;u&gt;+ GetMenuText(sortMode : SortMode) : string&lt;/u&gt;&#xa;&lt;u&gt;+ HandleInput(sortMode : SortMode) : char&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="5" vertex="1">
-          <mxGeometry x="140" y="20" width="270" height="90" as="geometry" />
-        </mxCell>
-        <mxCell id="8" value="TodoList" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
-          <mxGeometry y="330" width="580" height="160" as="geometry" />
-        </mxCell>
-        <mxCell id="9" value="&lt;u&gt;+ Items : List&lt;TodoItem&gt;&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="8" vertex="1">
-          <mxGeometry y="20" width="100" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="10" value="&lt;u&gt;+ AddItem(item : TodoItem) : void&lt;/u&gt;&#xa;&lt;u&gt;+ RemoveItem(index : int) : void&lt;/u&gt;&#xa;&lt;u&gt;+ MarkCompleted(index : int, completed : bool) : void&lt;/u&gt;&#xa;&lt;u&gt;+ ToggleCompletion(index : int) : void&lt;/u&gt;&#xa;&lt;u&gt;+ GetSortedItems(mode : SortMode) : IEnumerable&lt;TodoItem&gt;&lt;/u&gt;&#xa;&lt;u&gt;+ GetActualIndexFromSortedDisplayIndex(displayIndex : int, mode : SortMode) : int?&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="8" vertex="1">
-          <mxGeometry x="100" y="20" width="480" height="140" as="geometry" />
-        </mxCell>
-        <mxCell id="0s2UKo0EmFwrKFf2gLnJ-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="8" source="10" target="10">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="11" value="TodoItem" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
-          <mxGeometry x="65" y="550" width="450" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="12" value="&lt;u&gt;+ Description : string&lt;/u&gt;&#xa;&lt;u&gt;+ IsCompleted : bool&lt;/u&gt;&#xa;&lt;u&gt;+ CreatedDate : DateTime&lt;/u&gt;&#xa;&lt;u&gt;+ CompletedDate : DateTime?&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="11" vertex="1">
-          <mxGeometry y="20" width="190" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="13" value="&lt;u&gt;+ MarkCompleted(completed : bool) : void&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="11" vertex="1">
-          <mxGeometry x="190" y="20" width="250" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="14" value="ScreenDraw" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
-          <mxGeometry x="610" y="170" width="440" height="180" as="geometry" />
-        </mxCell>
-        <mxCell id="15" value="&lt;u&gt;+ DrawScreen(todoList : TodoList, menu : Menu, sortMode : SortMode) : void&lt;/u&gt;&#xa;&lt;u&gt;+ ShowDialog(title : string, message : string) : string&lt;/u&gt;&#xa;&lt;u&gt;+ ShowMessageDialog(title : string, message : string) : void&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="14" vertex="1">
-          <mxGeometry y="20" width="440" height="160" as="geometry" />
-        </mxCell>
-        <mxCell id="16" value="FileHandle" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
-          <mxGeometry x="630" y="430" width="420" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="17" value="&lt;u&gt;+ FileName : string&lt;/u&gt;&#xa;&lt;u&gt;+ FileExists : bool&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="16" vertex="1">
-          <mxGeometry y="20" width="130" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="18" value="&lt;u&gt;+ SaveAsJSON(list : TodoList) : void&lt;/u&gt;&#xa;&lt;u&gt;+ ReadJSON() : TodoList?&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="16" vertex="1">
-          <mxGeometry x="130" y="20" width="220" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="19" value="&lt;&lt;enum&gt;&gt;&#xa;SortMode&#xa;Date&#xa;Alphabetic" style="text;html=1;align=left;verticalAlign=top;shape=rectangle;whiteSpace=wrap;rounded=1;fillColor=#fff2cc;" parent="1" vertex="1">
-          <mxGeometry x="50" y="210" width="80" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="20" style="endArrow=block;endFill=1;" parent="1" source="2" target="5" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="21" style="endArrow=block;endFill=1;" parent="1" source="2" target="8" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="22" style="endArrow=block;endFill=1;" parent="1" source="2" target="14" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="23" style="endArrow=block;endFill=1;" parent="1" source="2" target="16" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="24" style="endArrow=open;endFill=0;dashed=1;" parent="1" source="8" target="11" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
+	<diagram name="TodoApp UML" id="todoapp-uml">
+		<mxGraphModel dx="1042" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+			<root>
+				<mxCell id="0" />
+				<mxCell id="1" parent="0" />
+				<mxCell id="100" value="Program" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
+					<mxGeometry x="40" y="20" width="160" height="80" as="geometry" />
+				</mxCell>
+				<mxCell id="101" value="&lt;u&gt;+ Main() : void&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="100" vertex="1">
+					<mxGeometry y="20" width="160" height="60" as="geometry" />
+				</mxCell>
+				<mxCell id="2" value="TodoApp" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
+					<mxGeometry x="40" y="130" width="440" height="260" as="geometry" />
+				</mxCell>
+				<mxCell id="3" value="&lt;u&gt;- Menu : Menu&lt;/u&gt;&#xa;&lt;u&gt;- ProjectList : ProjectList&lt;/u&gt;&#xa;&lt;u&gt;- Draw : ScreenDraw&lt;/u&gt;&#xa;&lt;u&gt;- File : FileHandle&lt;/u&gt;&#xa;&lt;u&gt;- CurrentSortMode : SortMode&lt;/u&gt;&#xa;&lt;u&gt;- CurrentProject : Project?&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="2" vertex="1">
+					<mxGeometry y="20" width="220" height="240" as="geometry" />
+				</mxCell>
+				<mxCell id="4" value="&lt;u&gt;+ TodoApp()&lt;/u&gt;&#xa;&lt;u&gt;+ Run() : void&lt;/u&gt;&#xa;&lt;u&gt;- Handle(action : char) : bool&lt;/u&gt;&#xa;&lt;u&gt;- LoadFromFile() : void&lt;/u&gt;&#xa;&lt;u&gt;- RemoveTask() : void&lt;/u&gt;&#xa;&lt;u&gt;- ToggleCompletion() : void&lt;/u&gt;&#xa;&lt;u&gt;- EditTask() : void&lt;/u&gt;&#xa;&lt;u&gt;- AddTask() : void&lt;/u&gt;&#xa;&lt;u&gt;- SelectOrCreateProject() : Project?&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="2" vertex="1">
+					<mxGeometry x="220" y="20" width="220" height="240" as="geometry" />
+				</mxCell>
+				<mxCell id="5" value="Menu" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
+					<mxGeometry x="530" y="200" width="470" height="120" as="geometry" />
+				</mxCell>
+				<mxCell id="6" value="&lt;u&gt;- Options : Dictionary&lt;char, string&gt;&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="5" vertex="1">
+					<mxGeometry y="20" width="140" height="100" as="geometry" />
+				</mxCell>
+				<mxCell id="7" value="&lt;u&gt;+ Menu()&lt;/u&gt;&#xa;&lt;u&gt;+ GetMenuText(sortMode : SortMode) : string&lt;/u&gt;&#xa;&lt;u&gt;+ GetAction(sortMode : SortMode) : char&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="5" vertex="1">
+					<mxGeometry x="140" y="20" width="270" height="100" as="geometry" />
+				</mxCell>
+				<mxCell id="8" value="ProjectList" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
+					<mxGeometry x="150" y="450" width="220" height="100" as="geometry" />
+				</mxCell>
+				<mxCell id="9" value="&lt;u&gt;+ Projects : List&lt;Project&gt;&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="8" vertex="1">
+					<mxGeometry y="20" width="110" height="80" as="geometry" />
+				</mxCell>
+				<mxCell id="10" value="&lt;u&gt;+ ProjectList()&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="8" vertex="1">
+					<mxGeometry x="110" y="20" width="110" height="80" as="geometry" />
+				</mxCell>
+				<mxCell id="11" value="Project" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
+					<mxGeometry x="50" y="610" width="590" height="180" as="geometry" />
+				</mxCell>
+				<mxCell id="12" value="&lt;u&gt;+ Name : string&lt;/u&gt;&#xa;&lt;u&gt;+ Tasks : List&lt;Task&gt;&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="11" vertex="1">
+					<mxGeometry y="20" width="110" height="160" as="geometry" />
+				</mxCell>
+				<mxCell id="13" value="&lt;u&gt;+ Project(name : string)&lt;/u&gt;&#xa;&lt;u&gt;+ AddTask(item : Task) : void&lt;/u&gt;&#xa;&lt;u&gt;+ RemoveTask(index : int) : void&lt;/u&gt;&#xa;&lt;u&gt;+ ToggleCompletion(index : int) : void&lt;/u&gt;&#xa;&lt;u&gt;+ GetSortedTasks(mode : SortMode) : IEnumerable&lt;Task&gt;&lt;/u&gt;&#xa;&lt;u&gt;+ GetActualIndexFromSortedDisplayIndex(displayIndex : int, mode : SortMode) : int?&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="11" vertex="1">
+					<mxGeometry x="110" y="20" width="480" height="160" as="geometry" />
+				</mxCell>
+				<mxCell id="14" value="Task" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
+					<mxGeometry x="90" y="860" width="510" height="160" as="geometry" />
+				</mxCell>
+				<mxCell id="15" value="&lt;u&gt;+ Description : string&lt;/u&gt;&#xa;&lt;u&gt;+ IsCompleted : bool&lt;/u&gt;&#xa;&lt;u&gt;+ CreatedDate : DateTime&lt;/u&gt;&#xa;&lt;u&gt;+ CompletedDate : DateTime?&lt;/u&gt;&#xa;&lt;u&gt;+ DueDate : DateTime?&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="14" vertex="1">
+					<mxGeometry y="20" width="190" height="140" as="geometry" />
+				</mxCell>
+				<mxCell id="16" value="&lt;u&gt;+ Task(description : string, dueDate : DateTime?)&lt;/u&gt;&#xa;&lt;u&gt;+ MarkCompleted(completed : bool) : void&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="14" vertex="1">
+					<mxGeometry x="190" y="20" width="290" height="140" as="geometry" />
+				</mxCell>
+				<mxCell id="UCdu89V2Xy525HPjmxG1-121" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="17" target="5">
+					<mxGeometry relative="1" as="geometry">
+						<mxPoint x="820" y="240" as="targetPoint" />
+					</mxGeometry>
+				</mxCell>
+				<mxCell id="17" value="ScreenDraw" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
+					<mxGeometry x="414" y="405" width="600" height="180" as="geometry" />
+				</mxCell>
+				<mxCell id="18" value="&lt;u&gt;+ DrawScreen(projectList : ProjectList, currentProject : Project?, menu : Menu, sortMode : SortMode) : void&lt;/u&gt;&#xa;&lt;u&gt;+ ShowInputDialog(title : string, message : string) : string&lt;/u&gt;&#xa;&lt;u&gt;+ ShowMessageDialog(title : string, message : string) : void&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="17" vertex="1">
+					<mxGeometry y="20" width="600" height="160" as="geometry" />
+				</mxCell>
+				<mxCell id="19" value="FileHandle" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=20;" parent="1" vertex="1">
+					<mxGeometry x="530" y="60" width="440" height="120" as="geometry" />
+				</mxCell>
+				<mxCell id="20" value="&lt;u&gt;+ FileName : string&lt;/u&gt;&#xa;&lt;u&gt;+ FileExists : bool&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="19" vertex="1">
+					<mxGeometry y="20" width="220" height="100" as="geometry" />
+				</mxCell>
+				<mxCell id="21" value="&lt;u&gt;+ FileHandle(fileName : string)&lt;/u&gt;&#xa;&lt;u&gt;+ SaveAsJSON(list : ProjectList) : void&lt;/u&gt;&#xa;&lt;u&gt;+ ReadJSON() : ProjectList?&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=5;" parent="19" vertex="1">
+					<mxGeometry x="220" y="20" width="220" height="100" as="geometry" />
+				</mxCell>
+				<mxCell id="22" value="&lt;&lt;enum&gt;&gt;&#xa;SortMode&#xa;Date&#xa;Alphabetic" style="text;html=1;align=left;verticalAlign=top;shape=rectangle;whiteSpace=wrap;rounded=1;fillColor=#fff2cc;" parent="1" vertex="1">
+					<mxGeometry x="250" y="30" width="80" height="70" as="geometry" />
+				</mxCell>
+				<mxCell id="23" style="endArrow=block;endFill=1;" parent="1" source="100" target="2" edge="1">
+					<mxGeometry relative="1" as="geometry" />
+				</mxCell>
+				<mxCell id="24" style="endArrow=block;endFill=1;" parent="1" source="2" target="5" edge="1">
+					<mxGeometry relative="1" as="geometry" />
+				</mxCell>
+				<mxCell id="25" style="endArrow=block;endFill=1;" parent="1" source="2" target="8" edge="1">
+					<mxGeometry relative="1" as="geometry" />
+				</mxCell>
+				<mxCell id="26" style="endArrow=block;endFill=1;" parent="1" source="2" target="17" edge="1">
+					<mxGeometry relative="1" as="geometry" />
+				</mxCell>
+				<mxCell id="27" style="endArrow=block;endFill=1;" parent="1" source="2" target="19" edge="1">
+					<mxGeometry relative="1" as="geometry" />
+				</mxCell>
+				<mxCell id="28" style="endArrow=open;endFill=0;dashed=1;" parent="1" source="8" target="11" edge="1">
+					<mxGeometry relative="1" as="geometry" />
+				</mxCell>
+				<mxCell id="29" style="endArrow=open;endFill=0;dashed=1;" parent="1" source="11" target="14" edge="1">
+					<mxGeometry relative="1" as="geometry" />
+				</mxCell>
+			</root>
+		</mxGraphModel>
+	</diagram>
 </mxfile>
